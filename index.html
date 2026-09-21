@@ -1,0 +1,58 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyglot</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1 class="logo">🌍 Polyglot</h1>
+
+    <h2 class="subtitle">Real-Time Language Translation</h2>
+
+    <p>Break the language barrier.</p>
+
+    <p>My name is Zerubbabel Williams.</p>
+
+    <p>
+        Polyglot will help people understand content regardless of the language.
+    </p>
+
+    <textarea
+        id="textInput"
+        class="text-input"
+        placeholder="Enter text you want to translate..."
+    ></textarea>
+
+    <div class="language-container">
+
+        <select id="sourceLanguage" class="language-select">
+            <option>English</option>
+            <option>Swahili</option>
+            <option>French</option>
+            <option>Spanish</option>
+        </select>
+
+        <select id="targetLanguage" class="language-select">
+            <option>Swahili</option>
+            <option>English</option>
+            <option>French</option>
+            <option>Spanish</option>
+        </select>
+
+    </div>
+
+    <button class="translate-button">Translate</button>
+
+    <div id="translationResult" class="translation-result">
+        Translation will appear here...
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
