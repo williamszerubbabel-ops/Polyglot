@@ -31,16 +31,30 @@ function translateText() {
 
     if (source === "English" && target === "Swahili") {
 
+        if (translations[text]) {
+            translationResult.textContent = translations[text];
+            return;
+        }
+
         const words = text.split(" ");
         const translatedWords = [];
+        let i = 0;
 
-        words.forEach(function(word) {
-            if (translations[word]) {
-                translatedWords.push(translations[word]);
+        while (i < words.length) {
+
+            const twoWords = words[i] + " " + words[i + 1];
+
+            if (translations[twoWords]) {
+                translatedWords.push(translations[twoWords]);
+                i += 2;
+            } else if (translations[words[i]]) {
+                translatedWords.push(translations[words[i]]);
+                i += 1;
             } else {
-                translatedWords.push(word);
+                translatedWords.push(words[i]);
+                i += 1;
             }
-        });
+        }
 
         translationResult.textContent = translatedWords.join(" ");
 
