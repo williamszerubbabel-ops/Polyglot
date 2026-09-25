@@ -6,22 +6,31 @@ const sourceLanguage = document.querySelector("#sourceLanguage");
 const targetLanguage = document.querySelector("#targetLanguage");
 
 const translations = {
-    "hello": "habari",
-    "goodbye": "kwaheri",
-    "thank you": "asante",
-    "please": "tafadhali",
-    "welcome": "karibu",
-    "good morning": "habari za asubuhi",
-    "good afternoon": "habari za mchana",
-    "good evening": "habari za jioni",
-    "how are you": "habari yako",
-    "i am fine": "niko vizuri",
-    "my name is": "jina langu ni",
-    "yes": "ndiyo",
-    "no": "hapana",
-    "water": "maji",
-    "food": "chakula",
-    "friend": "rafiki"
+    English: {
+        Swahili: {
+            "hello": "habari",
+            "thank you": "asante",
+            "welcome": "karibu",
+            "good morning": "habari za asubuhi",
+            "friend": "rafiki"
+        },
+
+        French: {
+            "hello": "bonjour",
+            "thank you": "merci",
+            "welcome": "bienvenue",
+            "good morning": "bonjour",
+            "friend": "ami"
+        },
+
+        Spanish: {
+            "hello": "hola",
+            "thank you": "gracias",
+            "welcome": "bienvenido",
+            "good morning": "buenos días",
+            "friend": "amigo"
+        }
+    }
 };
 
 function translateText() {
@@ -29,32 +38,27 @@ function translateText() {
     const source = sourceLanguage.value;
     const target = targetLanguage.value;
 
-    if (source === "English" && target === "Swahili") {
+    if (translations[source] && translations[source][target]) {
 
-        if (translations[text]) {
-            translationResult.textContent = translations[text];
+        const dictionary = translations[source][target];
+
+        // Check if the complete text exists
+        if (dictionary[text]) {
+            translationResult.textContent = dictionary[text];
             return;
         }
 
+        // Translate word by word
         const words = text.split(" ");
         const translatedWords = [];
-        let i = 0;
 
-        while (i < words.length) {
-
-            const twoWords = words[i] + " " + words[i + 1];
-
-            if (translations[twoWords]) {
-                translatedWords.push(translations[twoWords]);
-                i += 2;
-            } else if (translations[words[i]]) {
-                translatedWords.push(translations[words[i]]);
-                i += 1;
+        words.forEach(function(word) {
+            if (dictionary[word]) {
+                translatedWords.push(dictionary[word]);
             } else {
-                translatedWords.push(words[i]);
-                i += 1;
+                translatedWords.push(word);
             }
-        }
+        });
 
         translationResult.textContent = translatedWords.join(" ");
 
