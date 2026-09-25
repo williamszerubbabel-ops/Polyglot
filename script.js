@@ -30,8 +30,62 @@ const translations = {
             "good morning": "buenos días",
             "friend": "amigo"
         }
-    }
+    },
+
+    Swahili: {
+        French: {
+            "habari": "bonjour",
+            "asante": "merci",
+            "karibu": "bienvenue",
+            "rafiki": "ami",
+            "habari za asubuhi": "bonjour"
+        },
+
+        Spanish: {
+            "habari": "hola",
+            "asante": "gracias",
+            "karibu": "bienvenido",
+            "rafiki": "amigo",
+            "habari za asubuhi": "buenos días"
+        }
+    },
+
+    French: {
+        Spanish: {
+            "bonjour": "hola",
+            "merci": "gracias",
+            "bienvenue": "bienvenido",
+            "ami": "amigo",
+            "bon matin": "buenos días"
+        },
+    },
 };
+
+for (const sourceLanguage in translations) {
+    for (const targetLanguage in translations[sourceLanguage]) {
+
+        if (!translations[targetLanguage]) {
+            translations[targetLanguage] = {};
+        }
+
+        if (!translations[targetLanguage][sourceLanguage]) {
+            translations[targetLanguage][sourceLanguage] =
+                createReverseDictionary(
+                    translations[sourceLanguage][targetLanguage]
+                );
+        }
+    }
+}
+
+function createReverseDictionary(dictionary) {
+    const reverseDictionary = {};
+
+    for (const word in dictionary) {
+        reverseDictionary[dictionary[word]] = word;
+    }
+
+    return reverseDictionary;
+}
 
 function translateText() {
     const text = textInput.value.toLowerCase().trim();
