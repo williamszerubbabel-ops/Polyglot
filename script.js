@@ -1,5 +1,4 @@
 const translateButton = document.querySelector(".translate-button");
-const textInput = document.querySelector("#textInput");
 const translationResult = document.querySelector("#translationResult");
 
 const sourceLanguage = document.querySelector("#sourceLanguage");
@@ -181,5 +180,46 @@ function translateText() {
             "This translation combination is not available yet.";
     }
 }
+
+ 
+        const voiceButton = document.querySelector(".voice-button");
+        const textInput = document.querySelector(".text-input");
+
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        voiceButton.addEventListener("click", function() {
+            console.log("Starting speech recognition...");
+            recognition.start();
+        });
+
+        recognition.onstart = function() {
+            console.log("Microphone is listening...");
+            voiceButton.textContent = "🎙️ Listening...";
+        };
+
+        recognition.onresult = function(event) {
+            const speechText = event.results[0][0].transcript;
+
+            console.log("Speech detected:", speechText);
+
+            textInput.value = speechText;
+        };
+
+        recognition.onerror = function(event) {
+            console.log("Speech recognition error:", event.error);
+            voiceButton.textContent = "🎙️ Speak";
+        };
+
+        recognition.onend = function() {
+            console.log("Speech recognition ended.");
+            voiceButton.textContent = "🎙️ Speak";
+        };
 
 translateButton.addEventListener("click", translateText);
