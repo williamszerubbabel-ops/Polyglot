@@ -87,8 +87,23 @@ function createReverseDictionary(dictionary) {
     return reverseDictionary;
 }
 
+function matchCapitalization(original, translated) {
+    if (original === original.toUpperCase()) {
+        return translated.toUpperCase();
+    }
+
+    if (
+        original[0] === original[0].toUpperCase() &&
+        original.slice(1) === original.slice(1).toLowerCase()
+    ) {
+        return translated.charAt(0).toUpperCase() + translated.slice(1);
+    }
+
+    return translated;
+}
+
 function translateText() {
-    const text = textInput.value.toLowerCase().trim();
+    const text = textInput.value.trim();
     const source = sourceLanguage.value;
     const target = targetLanguage.value;
 
@@ -105,17 +120,62 @@ function translateText() {
         // Translate word by word
         const words = text.split(" ");
         const translatedWords = [];
+        let i = 0;
 
-        words.forEach(function(word) {
-            if (dictionary[word]) {
-                translatedWords.push(dictionary[word]);
-            } else {
-                translatedWords.push(word);
+        while (i < words.length) {
+
+            // Try two-word phrases first
+            if (i + 1 < words.length) {
+                const firstWord = words[i].replace(/[.,!?]/g, "");
+                const secondWord = words[i + 1].replace(/[.,!?]/g, "");
+
+                const phrase = firstWord.toLowerCase() + " " + secondWord.toLowerCase();
+
+                if (dictionary[phrase]) {
+                let translatedPhrase = dictionary[phrase];
+
+                translatedPhrase = matchCapitalization(
+                    firstWord + " " + secondWord,
+                    translatedPhrase
+                );
+
+                const punctuation = words[i + 1].match(/[.,!?]+$/);
+
+                if (punctuation) {
+                    translatedPhrase += punctuation[0];
+                }
+
+                translatedWords.push(translatedPhrase);
+
+                i += 2;
+                continue;
             }
-        });
+            }
+
+            // If no phrase was found, translate one word
+            const originalWord = words[i];
+            const cleanWord = originalWord.replace(/[.,!?]/g, "");
+            const lookupWord = cleanWord.toLowerCase();
+
+            if (dictionary[lookupWord]) {
+                let translatedWord = dictionary[lookupWord];
+
+                translatedWord = matchCapitalization(
+                    cleanWord,
+                    translatedWord
+                );
+
+                translatedWords.push(
+                    originalWord.replace(cleanWord, translatedWord)
+                );
+            } else {
+                translatedWords.push(originalWord);
+            }
+
+            i++;
+        }
 
         translationResult.textContent = translatedWords.join(" ");
-
     } else {
         translationResult.textContent =
             "This translation combination is not available yet.";
