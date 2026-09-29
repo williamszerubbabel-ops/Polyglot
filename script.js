@@ -207,9 +207,9 @@ function translateText() {
         recognition.onresult = function(event) {
             const speechText = event.results[0][0].transcript;
 
-            console.log("Speech detected:", speechText);
-
             textInput.value = speechText;
+
+            translateText();
         };
 
         recognition.onerror = function(event) {
@@ -223,3 +223,5 @@ function translateText() {
         };
 
 translateButton.addEventListener("click", translateText);
+
+
