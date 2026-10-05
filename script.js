@@ -190,12 +190,23 @@ function translateText() {
 
         const recognition = new SpeechRecognition();
 
-        recognition.lang = "en-US";
+        const speechLanguages = {
+            English: "en-US",
+            Swahili: "sw-KE",
+            French: "fr-FR",
+            Spanish: "es-ES"
+        };
         recognition.continuous = false;
         recognition.interimResults = false;
 
         voiceButton.addEventListener("click", function() {
+            const selectedLanguage = sourceLanguage.value;
+
+            recognition.lang = speechLanguages[selectedLanguage];
+
+            console.log("Speech language:", recognition.lang);
             console.log("Starting speech recognition...");
+
             recognition.start();
         });
 
@@ -221,6 +232,20 @@ function translateText() {
             console.log("Speech recognition ended.");
             voiceButton.textContent = "🎙️ Speak";
         };
+
+        const speakOutputButton = document.querySelector(".speak-output-button");
+
+        speakOutputButton.addEventListener("click", function() {
+            const translatedText = translationResult.textContent;
+
+            if (!translatedText) {
+                return;
+            }
+
+            const speech = new SpeechSynthesisUtterance(translatedText);
+
+            speechSynthesis.speak(speech);
+        });
 
 translateButton.addEventListener("click", translateText);
 
