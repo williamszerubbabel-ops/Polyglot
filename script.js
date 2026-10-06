@@ -2,7 +2,7 @@ const translateButton = document.querySelector(".translate-button");
 const translationResult = document.querySelector("#translationResult");
 
 const sourceLanguage = document.querySelector("#sourceLanguage");
-const targetLanguage = document.querySelector("#targetLanguage");
+const targetLanguageSelect = document.querySelector("#targetLanguage");
 
 const translations = {
     English: {
@@ -233,6 +233,19 @@ function translateText() {
             voiceButton.textContent = "🎙️ Speak";
         };
 
+        function getVoiceForLanguage(languageCode) {
+            return availableVoices.find(function(voice) {
+                return voice.lang.toLowerCase().startsWith(languageCode.toLowerCase());
+            });
+        }
+        
+        const speechOutputLanguages = {
+            English: "en",
+            Swahili: "sw",
+            French: "fr",
+            Spanish: "es"
+        };
+
         const speakOutputButton = document.querySelector(".speak-output-button");
 
         speakOutputButton.addEventListener("click", function() {
@@ -242,11 +255,53 @@ function translateText() {
                 return;
             }
 
+            const selectedTargetLanguage = targetLanguage.value;
+            const languageCode = speechOutputLanguages[selectedTargetLanguage];
+
             const speech = new SpeechSynthesisUtterance(translatedText);
 
+            speech.lang = languageCode;
+
+            const selectedVoice = getVoiceForLanguage(languageCode);
+
+            if (selectedVoice) {
+                speech.voice = selectedVoice;
+
+                console.log("Using voice:", selectedVoice.name);
+                console.log("Voice language:", selectedVoice.lang);
+            } else {
+                console.log("No matching voice found for:", languageCode);
+                console.log("Using browser default voice.");
+            }
+
+            speechSynthesis.cancel();
             speechSynthesis.speak(speech);
         });
 
 translateButton.addEventListener("click", translateText);
 
+        let availableVoices = [];
 
+        function loadVoices() {
+            availableVoices = speechSynthesis.getVoices();
+
+            console.log("Voices loaded:", availableVoices.length);
+        }
+
+        loadVoices();
+
+        speechSynthesis.addEventListener("voiceschanged", loadVoices);
+
+
+
+
+
+        function loadVoices() {
+    availableVoices = speechSynthesis.getVoices();
+
+    console.log("Voices loaded:", availableVoices.length);
+
+    availableVoices.forEach(function(voice) {
+        console.log(voice.name, "|", voice.lang);
+    });
+}
