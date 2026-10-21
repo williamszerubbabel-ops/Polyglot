@@ -232,10 +232,19 @@ function translateText() {
             console.log("Speech recognition ended.");
             voiceButton.textContent = "🎙️ Speak";
         };
-
         function getVoiceForLanguage(languageCode) {
+            // First, look for an exact language match
+            const exactVoice = availableVoices.find(function(voice) {
+                return voice.lang.toLowerCase() === languageCode.toLowerCase();
+            });
+
+            if (exactVoice) {
+                return exactVoice;
+            }
+
+            // If no exact match exists, look for a regional match
             return availableVoices.find(function(voice) {
-                return voice.lang.toLowerCase().startsWith(languageCode.toLowerCase());
+                return voice.lang.toLowerCase().startsWith(languageCode.toLowerCase() + "-");
             });
         }
         
@@ -271,7 +280,12 @@ function translateText() {
                 console.log("Voice language:", selectedVoice.lang);
             } else {
                 console.log("No matching voice found for:", languageCode);
-                console.log("Using browser default voice.");
+
+                alert(
+                    "A voice for " +
+                    selectedTargetLanguage +
+                    " is not available on this device."
+                );
             }
 
             speechSynthesis.cancel();
@@ -298,6 +312,14 @@ translateButton.addEventListener("click", translateText);
 
         function loadVoices() {
     availableVoices = speechSynthesis.getVoices();
+    console.log("Swahili voice available:",
+        checkVoiceAvailability("sw"));
+
+    console.log("French voice available:",
+        checkVoiceAvailability("fr"));
+
+    console.log("Spanish voice available:",
+        checkVoiceAvailability("es"));
 
     console.log("Voices loaded:", availableVoices.length);
 
@@ -305,3 +327,15 @@ translateButton.addEventListener("click", translateText);
         console.log(voice.name, "|", voice.lang);
     });
 }
+
+
+function checkVoiceAvailability(languageCode) {
+    const voice = getVoiceForLanguage(languageCode);
+
+    if (voice) {
+        return true;
+    }
+
+    return false;
+}
+
