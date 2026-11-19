@@ -1,62 +1,147 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polyglot</title>
-
+    <title>Polyglot | Break the Language Barrier</title>
+    <link rel="icon" type="image/png" href="polyglot-favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1 class="logo">🌍 Polyglot</h1>
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🌍 Polyglot</div>
 
-    <h2 class="subtitle">Real-Time Language Translation</h2>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#translate">Translate</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
 
-    <p>Break the language barrier.</p>
+    <!-- HERO SECTION -->
+    <header class="hero" id="home">
+        <span class="hero-tag">🌐 Connecting the World Through Language</span>
 
-    <p>My name is Zerubbabel Williams.</p>
+        <h1>Break the <span>Language Barrier.</span></h1>
 
-    <p>
-        Polyglot will help people understand content regardless of the language.
-    </p>
+        <p>
+            Communicate, connect and understand content from around
+            the world with Polyglot.
+        </p>
 
-    <textarea
-        class="text-input"
-        placeholder="Enter text you want to translate..."
-    ></textarea>
+        <a href="#translate" class="hero-button">Start Translating →</a>
+    </header>
 
-    <button class="voice-button">
-        🎙️ Speak
-    </button>
-    <button class="speak-output-button">
-        🔊 Listen to Translation
-    </button>
+    <!-- TRANSLATION SECTION -->
+        <main id="translate" class="translator-section">
 
-    <div class="language-container">
+            <div class="section-heading">
+                <h2>🌍 Language Translator</h2>
+                <p>Translate your words and connect with the world.</p>
+            </div>
 
-        <select id="sourceLanguage" class="language-select">
-            <option>English</option>
-            <option>Swahili</option>
-            <option>French</option>
-            <option>Spanish</option>
-        </select>
+            <button class="swap-button">⇄ Swap Languages</button>
 
-        <select id="targetLanguage" class="language-select">
-            <option>Swahili</option>
-            <option>English</option>
-            <option>French</option>
-            <option>Spanish</option>
-        </select>
+            <div class="translator-container">
 
-    </div>
+                <!-- INPUT PANEL -->
+                <div class="translator-panel">
 
-    <button class="translate-button">Translate</button>
+                    <div class="panel-heading">
+                        <h3>Original Text</h3>
+                        <select id="sourceLanguage" class="language-select">
+                            <option>English</option>
+                            <option>Swahili</option>
+                            <option>French</option>
+                            <option>Spanish</option>
+                        </select>
+                    </div>
 
-    <div id="translationResult" class="translation-result">
-        Translation will appear here...
-    </div>
+                    <textarea
+                        class="text-input"
+                        placeholder="Enter text you want to translate..."
+                    ></textarea>
+
+                    <div class="panel-controls">
+                        <button class="voice-button">🎙️ Speak</button>
+                    </div>
+
+                </div>
+
+                <!-- OUTPUT PANEL -->
+                <div class="translator-panel">
+
+                    <div class="panel-heading">
+                        <h3>Translated Text</h3>
+                        <select id="targetLanguage" class="language-select">
+                            <option>Swahili</option>
+                            <option>English</option>
+                            <option>French</option>
+                            <option>Spanish</option>
+                        </select>
+                    </div>
+
+                    <div id="translationResult" class="translation-result">
+                        Your translation will appear here...
+                    </div>
+
+                    <div class="panel-controls">
+                        <button class="speak-output-button">
+                            🔊 Listen to Translation
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button class="translate-button">Translate →</button>
+
+        </main>
+    <!-- FEATURES SECTION -->
+    <section id="features" class="features-section">
+        <h2>Why Choose Polyglot?</h2>
+
+        <div class="features-container">
+            <div class="feature-card">
+                <span>🌍</span>
+                <h3>Multiple Languages</h3>
+                <p>Connect with people across different languages.</p>
+            </div>
+
+            <div class="feature-card">
+                <span>🎙️</span>
+                <h3>Voice Recognition</h3>
+                <p>Speak instead of typing your message.</p>
+            </div>
+
+            <div class="feature-card">
+                <span>🔊</span>
+                <h3>Text to Speech</h3>
+                <p>Listen to translated content.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+        <h2>About Polyglot</h2>
+
+        <p>
+            Created by Zerubbabel Williams, Polyglot aims to help
+            people understand content regardless of language.
+        </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Polyglot. Breaking language barriers, connecting the world.</p>
+    </footer>
 
     <script src="script.js"></script>
 

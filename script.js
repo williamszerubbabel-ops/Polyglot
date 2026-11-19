@@ -2,7 +2,7 @@ const translateButton = document.querySelector(".translate-button");
 const translationResult = document.querySelector("#translationResult");
 
 const sourceLanguage = document.querySelector("#sourceLanguage");
-const targetLanguageSelect = document.querySelector("#targetLanguage");
+const targetLanguage = document.querySelector("#targetLanguage");
 
 const translations = {
     English: {
@@ -101,85 +101,85 @@ function matchCapitalization(original, translated) {
     return translated;
 }
 
-function translateText() {
-    const text = textInput.value.trim();
-    const source = sourceLanguage.value;
-    const target = targetLanguage.value;
+        function translateText() {
+            const text = textInput.value.trim();
+            const source = sourceLanguage.value;
+            const target = targetLanguage.value;
 
-    if (translations[source] && translations[source][target]) {
+            if (translations[source] && translations[source][target]) {
 
-        const dictionary = translations[source][target];
+                const dictionary = translations[source][target];
 
-        // Check if the complete text exists
-        if (dictionary[text]) {
-            translationResult.textContent = dictionary[text];
-            return;
-        }
-
-        // Translate word by word
-        const words = text.split(" ");
-        const translatedWords = [];
-        let i = 0;
-
-        while (i < words.length) {
-
-            // Try two-word phrases first
-            if (i + 1 < words.length) {
-                const firstWord = words[i].replace(/[.,!?]/g, "");
-                const secondWord = words[i + 1].replace(/[.,!?]/g, "");
-
-                const phrase = firstWord.toLowerCase() + " " + secondWord.toLowerCase();
-
-                if (dictionary[phrase]) {
-                let translatedPhrase = dictionary[phrase];
-
-                translatedPhrase = matchCapitalization(
-                    firstWord + " " + secondWord,
-                    translatedPhrase
-                );
-
-                const punctuation = words[i + 1].match(/[.,!?]+$/);
-
-                if (punctuation) {
-                    translatedPhrase += punctuation[0];
+                // Check if the complete text exists
+                if (dictionary[text]) {
+                    translationResult.textContent = dictionary[text];
+                    return;
                 }
 
-                translatedWords.push(translatedPhrase);
+                // Translate word by word
+                const words = text.split(" ");
+                const translatedWords = [];
+                let i = 0;
 
-                i += 2;
-                continue;
-            }
-            }
+                while (i < words.length) {
 
-            // If no phrase was found, translate one word
-            const originalWord = words[i];
-            const cleanWord = originalWord.replace(/[.,!?]/g, "");
-            const lookupWord = cleanWord.toLowerCase();
+                    // Try two-word phrases first
+                    if (i + 1 < words.length) {
+                        const firstWord = words[i].replace(/[.,!?]/g, "");
+                        const secondWord = words[i + 1].replace(/[.,!?]/g, "");
 
-            if (dictionary[lookupWord]) {
-                let translatedWord = dictionary[lookupWord];
+                        const phrase = firstWord.toLowerCase() + " " + secondWord.toLowerCase();
 
-                translatedWord = matchCapitalization(
-                    cleanWord,
-                    translatedWord
-                );
+                        if (dictionary[phrase]) {
+                        let translatedPhrase = dictionary[phrase];
 
-                translatedWords.push(
-                    originalWord.replace(cleanWord, translatedWord)
-                );
+                        translatedPhrase = matchCapitalization(
+                            firstWord + " " + secondWord,
+                            translatedPhrase
+                        );
+
+                        const punctuation = words[i + 1].match(/[.,!?]+$/);
+
+                        if (punctuation) {
+                            translatedPhrase += punctuation[0];
+                        }
+
+                        translatedWords.push(translatedPhrase);
+
+                        i += 2;
+                        continue;
+                    }
+                    }
+
+                    // If no phrase was found, translate one word
+                    const originalWord = words[i];
+                    const cleanWord = originalWord.replace(/[.,!?]/g, "");
+                    const lookupWord = cleanWord.toLowerCase();
+
+                    if (dictionary[lookupWord]) {
+                        let translatedWord = dictionary[lookupWord];
+
+                        translatedWord = matchCapitalization(
+                            cleanWord,
+                            translatedWord
+                        );
+
+                        translatedWords.push(
+                            originalWord.replace(cleanWord, translatedWord)
+                        );
+                    } else {
+                        translatedWords.push(originalWord);
+                    }
+
+                    i++;
+                }
+
+                translationResult.textContent = translatedWords.join(" ");
             } else {
-                translatedWords.push(originalWord);
+                translationResult.textContent =
+                    "This translation combination is not available yet.";
             }
-
-            i++;
         }
-
-        translationResult.textContent = translatedWords.join(" ");
-    } else {
-        translationResult.textContent =
-            "This translation combination is not available yet.";
-    }
-}
 
  
         const voiceButton = document.querySelector(".voice-button");
@@ -338,4 +338,13 @@ function checkVoiceAvailability(languageCode) {
 
     return false;
 }
+
+const swapButton = document.querySelector(".swap-button");
+
+swapButton.addEventListener("click", () => {
+    const temporaryLanguage = sourceLanguage.value;
+
+    sourceLanguage.value = targetLanguage.value;
+    targetLanguage.value = temporaryLanguage;
+});
 
